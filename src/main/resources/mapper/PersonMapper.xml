@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，
+这样就能够保证namespace的值是唯一的
+ -->
+<mapper namespace="com.wpw.mybatispagehelper.mapper.PersonMapper">
+    <resultMap id="map" type="com.wpw.mybatispagehelper.entity.Person">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="sex" column="sex"></result>
+        <result property="age" column="age"></result>
+    </resultMap>
+    <select id="listPerson" parameterType="com.wpw.mybatispagehelper.entity.Person" resultMap="map">
+        select *
+        from person
+        <where>
+            <if test="name!=null">
+                name like concat ('%',#{name},'%')
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="age!=null">
+                and age=#{age}
+            </if>
+        </where>
+    </select>
+</mapper>
